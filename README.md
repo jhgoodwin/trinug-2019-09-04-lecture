@@ -22,10 +22,23 @@ AKA Temporal Tables
 
 ## Demo
 
-- Setup Database
-  - `docker run --rm -it -p 5432:5432 --name dvdrental -v ~/Downloads/dvdrental.tar:/tmp/dvdrental.tar postgres:10`
-  - `docker exec -it dvdrental /bin/bash`
-  - `psql -U postgres -c 'CREATE DATABASE dvdrental;' && pg_restore -U postgres -d dvdrental /tmp/dvdrental.tar`
+- Download Database:
+  - http://www.postgresqltutorial.com/postgresql-sample-database/
+  - http://www.postgresqltutorial.com/load-postgresql-sample-database/
+
+```bash
+curl -o ~/Downloads/dvdrental.zip http://www.postgresqltutorial.com/wp-content/uploads/2019/05/dvdrental.zip
+unzip ~/Downloads/dvdrental.zip -d ~/Downloads/
+## for me as a WSL2 user who runs docker the hard way
+# sudo service docker start
+## get ip of wsl2 vm
+# ip -f inet addr show dev eth0
+docker run --rm -it -p 5432:5432 --name dvdrental -v ~/Downloads/dvdrental.tar:/tmp/dvdrental.tar postgres:10
+# in another shell
+docker exec -it dvdrental /bin/bash
+# inside the container
+psql -U postgres -c 'CREATE DATABASE dvdrental;' && pg_restore -U postgres -d dvdrental /tmp/dvdrental.tar
+```
 - Show existing query
   - [01.unpaid_returns.sql](01.unpaid_returns.sql)
 - Add Versioning fn
